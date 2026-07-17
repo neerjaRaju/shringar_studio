@@ -190,15 +190,34 @@ class PromptEngine:
             tags=tags,
         )
 
-    def generate_batch(self, count: int, seen_fingerprints: set[str]) -> list[PromptSpec]:
-        """Generate `count` specs whose fingerprints are not in `seen_fingerprints`."""
+    def generate_batch(
+        self,
+        count: int,
+        seen_fingerprints: set[str],
+        category_id: str | None = None,
+    ) -> list[PromptSpec]:
+        """Generate `count` specs whose fingerprints are not in `seen_fingerprints`.
+
+        If `category_id` is given, all specs are drawn from that category.
+        """
         out: list[PromptSpec] = []
         attempts = 0
         while len(out) < count and attempts < count * 50:
-            spec = self.generate()
+            spec = self.generate(category_id=category_id)
             attempts += 1
             if spec.fingerprint in seen_fingerprints:
                 continue
             seen_fingerprints.add(spec.fingerprint)
             out.append(spec)
+        return out
+
+    def generate_per_category(
+        self, per_category: int, seen_fingerprints: set[str]
+    ) -> list[PromptSpec]:
+        """Generate `per_category` unique specs for EVERY category."""
+        out: list[PromptSpec] = []
+        for cat in self.categories:
+            out.extend(
+                self.generate_batch(per_category, seen_fingerprints, category_id=cat["id"])
+            )
         return out

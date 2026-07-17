@@ -82,7 +82,7 @@ class CategoriesTab extends ConsumerWidget {
                 onTap: () =>
                     context.push('/category/${c.id}?name=${Uri.encodeComponent(c.name)}'),
                 child: Padding(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,

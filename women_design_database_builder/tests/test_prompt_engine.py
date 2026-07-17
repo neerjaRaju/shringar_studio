@@ -45,6 +45,27 @@ def test_tags_nonempty_and_lowercase():
     assert all(t == t.lower() for t in spec.tags)
 
 
+def test_generate_per_category_one_each():
+    e = engine()
+    seen: set[str] = set()
+    specs = e.generate_per_category(1, seen)
+    assert len(specs) == len(e.categories)
+    covered = {s.category_id for s in specs}
+    assert covered == {c["id"] for c in e.categories}
+    # all unique fingerprints
+    assert len({s.fingerprint for s in specs}) == len(specs)
+
+
+def test_generate_per_category_multiple():
+    e = engine()
+    seen: set[str] = set()
+    specs = e.generate_per_category(3, seen)
+    assert len(specs) == 3 * len(e.categories)
+    from collections import Counter
+    counts = Counter(s.category_id for s in specs)
+    assert all(n == 3 for n in counts.values())
+
+
 def test_component_counts_meet_spec():
     c = engine().c
     assert len(c["style_adjectives"]) * len(c["style_bases"]) >= 1000

@@ -15,7 +15,17 @@ from .prompt_engine.engine import PromptEngine
 log = logging.getLogger("builder")
 
 
-def run(count: int, cfg: Config | None = None, seed: int | None = None) -> list[str]:
+def run(
+    count: int,
+    cfg: Config | None = None,
+    seed: int | None = None,
+    per_category: int | None = None,
+) -> list[str]:
+    """Generate designs.
+
+    * default: `count` designs across random categories.
+    * `per_category=N`: N designs for EVERY category (count is ignored).
+    """
     cfg = cfg or Config.load()
     rng = random.Random(seed)
     engine = PromptEngine(rng)
@@ -41,8 +51,18 @@ def run(count: int, cfg: Config | None = None, seed: int | None = None) -> list[
     thumb_sizes = tuple(cfg.get("processing", "thumbnail_sizes", default=[512, 256, 128]))
 
     new_ids: list[str] = []
-    specs = engine.generate_batch(count, seen)
-    log.info("generating %d designs (space: %.2e combinations)", len(specs), engine.combination_space())
+    if per_category:
+        specs = engine.generate_per_category(per_category, seen)
+        log.info(
+            "generating %d designs (%d per category x %d categories)",
+            len(specs), per_category, len(engine.categories),
+        )
+    else:
+        specs = engine.generate_batch(count, seen)
+        log.info(
+            "generating %d designs (space: %.2e combinations)",
+            len(specs), engine.combination_space(),
+        )
 
     from .processing.image_processor import process_image  # local import keeps CLI fast
 
