@@ -6,12 +6,16 @@ class DesignCategory {
     required this.name,
     required this.subcategories,
     this.count = 0,
+    this.coverUrl,
   });
 
   final String id;
   final String name;
   final List<String> subcategories;
   final int count;
+
+  /// Thumbnail URL of a representative design, or null if the category is empty.
+  final String? coverUrl;
 
   factory DesignCategory.fromMap(Map<String, Object?> map) => DesignCategory(
         id: map['id']! as String,
@@ -20,6 +24,7 @@ class DesignCategory {
             ? (jsonDecode(map['subcategories']! as String) as List).cast<String>()
             : const [],
         count: (map['count'] as num?)?.toInt() ?? 0,
+        coverUrl: map['cover'] as String?,
       );
 
   /// Emoji used on category cards (pure presentation sugar).

@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../domain/entities/design_category.dart';
 import '../../providers/design_providers.dart';
-import '../../widgets/design_grid.dart';
 import 'home_tab.dart';
 
 export 'home_tab.dart' show HomeTab;
@@ -70,42 +71,85 @@ class CategoriesTab extends ConsumerWidget {
           padding: const EdgeInsets.all(12),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 1.4,
+            childAspectRatio: 1.1,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
           ),
           itemCount: cats.length,
-          itemBuilder: (context, i) {
-            final c = cats[i];
-            return Card(
-              child: InkWell(
-                onTap: () =>
-                    context.push('/category/${c.id}?name=${Uri.encodeComponent(c.name)}'),
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(c.emoji, style: const TextStyle(fontSize: 30)),
-                      const Spacer(),
-                      Text(c.name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15)),
-                      Text('${c.count} designs',
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontSize: 12)),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+          itemBuilder: (context, i) => _CategoryCard(category: cats[i]),
         ),
       ),
     );
   }
+}
+
+/// Category card with a representative cover image (emoji fallback when the
+/// category has no designs yet).
+class _CategoryCard extends StatelessWidget {
+  const _CategoryCard({required this.category});
+  final DesignCategory category;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push(
+            '/category/${category.id}?name=${Uri.encodeComponent(category.name)}'),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (category.coverUrl != null)
+              CachedNetworkImage(
+                imageUrl: category.coverUrl!,
+                fit: BoxFit.cover,
+                errorWidget: (_, __, ___) => _emojiBg(scheme),
+                placeholder: (_, __) => Container(color: scheme.surfaceContainerHighest),
+              )
+            else
+              _emojiBg(scheme),
+            // dark gradient for legible text
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withValues(alpha: 0.7)],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 10,
+              right: 10,
+              bottom: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(category.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15)),
+                  Text('${category.count} designs',
+                      style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _emojiBg(ColorScheme scheme) => Container(
+        color: scheme.primaryContainer,
+        alignment: Alignment.center,
+        child: Text(category.emoji, style: const TextStyle(fontSize: 42)),
+      );
 }

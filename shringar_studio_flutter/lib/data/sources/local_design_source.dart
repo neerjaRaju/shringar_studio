@@ -114,8 +114,12 @@ class LocalDesignSource {
   }
 
   Future<List<Map<String, Object?>>> categoriesWithCounts() {
+    // MAX(thumbnail_url) gives a deterministic representative cover per
+    // category (NULL when the category has no designs yet).
     return db.rawQuery('''
-      SELECT c.id, c.name, c.subcategories, COUNT(d.id) AS count
+      SELECT c.id, c.name, c.subcategories,
+             COUNT(d.id) AS count,
+             MAX(d.thumbnail_url) AS cover
       FROM categories c LEFT JOIN designs d ON d.category = c.id
       GROUP BY c.id ORDER BY count DESC, c.name
       ''');
