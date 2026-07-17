@@ -34,7 +34,7 @@ dependencies:
   # Features
   share_plus: ^9.0.0
   wallpaper_manager_plus: ^1.0.3
-  speech_to_text: ^6.6.2
+  speech_to_text: ^7.0.0
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.0
 
