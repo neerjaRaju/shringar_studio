@@ -27,10 +27,14 @@ class AdManager {
   }
 
   // ---- Banner ----------------------------------------------------------------
-  BannerAd createBanner({AdSize size = AdSize.banner}) => BannerAd(
+  BannerAd createBanner({
+    AdSize size = AdSize.banner,
+    BannerAdListener? listener,
+  }) =>
+      BannerAd(
         size: size,
         adUnitId: AppConstants.bannerAdUnitId,
-        listener: const BannerAdListener(),
+        listener: listener ?? const BannerAdListener(),
         request: const AdRequest(),
       )..load();
 

@@ -18,11 +18,14 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   @override
   void initState() {
     super.initState();
-    _ad = AdManager.instance.createBanner()
-      ..listener = BannerAdListener(
-        onAdLoaded: (_) => mounted ? setState(() => _loaded = true) : null,
+    _ad = AdManager.instance.createBanner(
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          if (mounted) setState(() => _loaded = true);
+        },
         onAdFailedToLoad: (ad, _) => ad.dispose(),
-      );
+      ),
+    );
   }
 
   @override
