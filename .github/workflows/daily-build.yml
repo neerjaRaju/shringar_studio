@@ -1,0 +1,86 @@
+name: Daily Database Build
+
+on:
+  schedule:
+    - cron: "30 2 * * *"        # every day 02:30 UTC (08:00 IST)
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Number of images to generate"
+        default: "2"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-build
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: women_design_database_builder
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: women_design_database_builder/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pip install pytest
+          pytest tests/ -q
+
+      - name: Generate designs (prompts -> images -> thumbnails -> metadata -> SQLite -> update.json)
+        env:
+          COUNT: ${{ github.event.inputs.count || '2' }}
+        run: python -m builder --count "$COUNT"
+
+      - name: Compute release version
+        id: version
+        run: echo "version=v$(date -u +'%Y.%m.%d')-${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push data
+        working-directory: .
+        run: |
+          git config user.name "shringar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add women_design_database_builder/data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            echo "SKIP_RELEASE=true" >> "$GITHUB_ENV"
+          else
+            git commit -m "data: daily build ${{ steps.version.outputs.version }}"
+            git pull --rebase origin ${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
+      - name: Create GitHub Release (SQLite + update.json)
+        if: env.SKIP_RELEASE != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Database ${{ steps.version.outputs.version }}
+          body: |
+            Automated daily database build.
+            Assets:
+            - `shringar.db` — full SQLite database (FTS5)
+            - `update.json` — incremental update manifest
+          files: |
+            women_design_database_builder/data/db/shringar.db
+            women_design_database_builder/data/exports/update.json

@@ -1,0 +1,35 @@
+# Shringar Studio — Database Builder Configuration
+github:
+  owner: neerjaRaju
+  repo: shringar_studio
+  branch: main
+  # Monorepo: the builder lives in a subfolder, so the CDN/raw base includes it.
+  cdn_base: "https://cdn.jsdelivr.net/gh/neerjaRaju/shringar_studio@main/women_design_database_builder"
+  raw_base: "https://raw.githubusercontent.com/neerjaRaju/shringar_studio/main/women_design_database_builder"
+
+generation:
+  provider: pollinations          # pollinations | huggingface | none
+  daily_count: 2                  # images generated per scheduled run
+  sizes: [1024, 1536, 2048]       # long-edge candidates; one picked per design
+  orientations: [square, portrait, landscape]
+  timeout_seconds: 120
+  retries: 3
+  retry_backoff_seconds: 10
+
+processing:
+  format: webp
+  quality: 82
+  thumbnail_sizes: [512, 256, 128]
+  thumbnail_quality: 75
+
+dedup:
+  phash_hamming_threshold: 6      # <= threshold => considered duplicate
+
+database:
+  path: data/db/shringar.db
+  export_json: data/exports/designs.json
+  update_json: data/exports/update.json
+
+premium:
+  # every Nth design is flagged premium (unlocked in-app via rewarded ads)
+  every_nth: 5

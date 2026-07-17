@@ -1,0 +1,10 @@
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.dart_tool/
+**/build/
+**/.idea/
+**/.DS_Store
+**/local.properties
+**/*.jks
+**/*.keystore
