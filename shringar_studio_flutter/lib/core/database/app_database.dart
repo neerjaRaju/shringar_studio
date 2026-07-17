@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constants/app_constants.dart';
+import '../network/update_service.dart';
 
 /// Owns the read-only design database (seeded from assets, replaced by the
 /// incremental updater) and the local user database (favorites, views,
@@ -23,6 +25,9 @@ class AppDatabase {
     if (!File(designPath).existsSync()) {
       await _copyFromAssets(designPath);
     }
+
+    // Apply an incremental DB downloaded in the background on a prior launch.
+    await applyStagedUpdate(designPath);
 
     final designDb = await openDatabase(designPath, readOnly: true);
     final userDb = await openDatabase(
@@ -77,7 +82,8 @@ class AppDatabase {
     );
   }
 
-  /// Atomically swap in a freshly-downloaded database file.
+  /// Atomically swap in a freshly-downloaded database file (used by the
+  /// manual "Check for updates" flow in Settings).
   static Future<Database> replaceDesignDb(
       Database current, File downloaded) async {
     final path = current.path;
@@ -85,5 +91,31 @@ class AppDatabase {
     await downloaded.copy(path);
     await downloaded.delete();
     return openDatabase(path, readOnly: true);
+  }
+
+  /// If a staged DB (downloaded in the background last launch) exists and is a
+  /// valid SQLite file, move it into place and promote its pending version to
+  /// applied. Runs before the DB is opened, so it's a safe file-level swap.
+  static Future<void> applyStagedUpdate(String designPath) async {
+    try {
+      final staged = File(await UpdateService.stagedPath());
+      if (!staged.existsSync()) return;
+      final header = String.fromCharCodes(
+          (await staged.openRead(0, 15).first).take(15));
+      if (!header.startsWith('SQLite format 3')) {
+        await staged.delete();
+        return;
+      }
+      await staged.copy(designPath);
+      await staged.delete();
+      final prefs = await SharedPreferences.getInstance();
+      final pending = prefs.getString('db_version_pending');
+      if (pending != null) {
+        await prefs.setString('db_version', pending);
+        await prefs.remove('db_version_pending');
+      }
+    } on Exception {
+      // If anything goes wrong, keep the existing DB untouched.
+    }
   }
 }
