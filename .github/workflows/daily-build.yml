@@ -64,11 +64,23 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
             echo "SKIP_RELEASE=true" >> "$GITHUB_ENV"
-          else
-            git commit -m "data: daily build ${{ steps.version.outputs.version }}"
-            git pull --rebase origin ${{ github.ref_name }}
-            git push origin HEAD:${{ github.ref_name }}
+            exit 0
           fi
+          git commit -m "data: daily build ${{ steps.version.outputs.version }}"
+          # This job is the only writer of data/. Its freshly-built DB/JSON are
+          # the authoritative latest, so on any rebase conflict against a moved
+          # main we keep OUR generated files (-X theirs = the commit being
+          # replayed). Retry to absorb transient races.
+          branch="${{ github.ref_name }}"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$branch"
+            git rebase -X theirs "origin/$branch" || git rebase --abort
+            if git push origin "HEAD:$branch"; then
+              echo "pushed on attempt $attempt"; exit 0
+            fi
+            echo "push attempt $attempt failed; retrying"; sleep $((attempt * 5))
+          done
+          echo "::error::could not push data after 5 attempts"; exit 1
 
       - name: Create GitHub Release (SQLite + update.json)
         if: env.SKIP_RELEASE != 'true'
