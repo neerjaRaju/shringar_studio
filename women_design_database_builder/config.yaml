@@ -10,8 +10,8 @@ github:
 generation:
   provider: pollinations          # pollinations | huggingface | none
   daily_count: 2                  # images generated per scheduled run
-  sizes: [1024, 1536, 2048]       # long-edge candidates; one picked per design
-  orientations: [square, portrait, landscape]
+  sizes: [1000]                   # long edge (px); max width/height = 1000
+  orientations: [square, portrait, landscape]  # square 1000x1000, portrait 666x1000, landscape 1000x666
   timeout_seconds: 120
   retries: 3
   retry_backoff_seconds: 10

@@ -11,6 +11,7 @@ export 'home_tab.dart' show HomeTab;
 
 /// Bottom-navigation shell wrapping the four primary tabs.
 class HomeShell extends StatelessWidget {
+
   const HomeShell({super.key, required this.child});
   final Widget child;
 
