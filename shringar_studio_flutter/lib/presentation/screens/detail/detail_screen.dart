@@ -65,7 +65,9 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
 
   Future<void> _share() async {
     final file = await _cachedFile(_design!.imageUrl);
-    await Share.shareXFiles([XFile(file.path)], text: _design!.title);
+    await SharePlus.instance.share(
+      ShareParams(files: [XFile(file.path)], text: _design!.title),
+    );
   }
 
   Future<void> _download() async {
