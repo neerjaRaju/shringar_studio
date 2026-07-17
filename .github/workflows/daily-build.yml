@@ -44,7 +44,7 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest
-          pytest tests/ -q
+          python -m pytest tests/ -q
 
       - name: Generate designs (prompts -> images -> thumbnails -> metadata -> SQLite -> update.json)
         env:
