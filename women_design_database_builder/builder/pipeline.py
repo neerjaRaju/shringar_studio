@@ -49,6 +49,7 @@ def run(
     quality = cfg.get("processing", "quality", default=82)
     thumb_q = cfg.get("processing", "thumbnail_quality", default=75)
     thumb_sizes = tuple(cfg.get("processing", "thumbnail_sizes", default=[512, 256, 128]))
+    max_edge = cfg.get("processing", "max_edge", default=1000)
 
     new_ids: list[str] = []
     if per_category:
@@ -80,6 +81,7 @@ def run(
             processed = process_image(
                 raw, design_id, cfg.images_dir, cfg.thumbs_dir,
                 quality=quality, thumb_quality=thumb_q, thumb_sizes=thumb_sizes,
+                max_edge=max_edge,
             )
 
             if dup_index.is_duplicate(processed.sha256, processed.phash):

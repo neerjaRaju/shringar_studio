@@ -56,6 +56,7 @@ def run(count: int, seed: int | None, workers: int) -> list[str]:
     quality = cfg.get("processing", "quality", default=82)
     thumb_q = cfg.get("processing", "thumbnail_quality", default=75)
     thumb_sizes = tuple(cfg.get("processing", "thumbnail_sizes", default=[512, 256, 128]))
+    max_edge = cfg.get("processing", "max_edge", default=1000)
     premium_nth = cfg.get("premium", "every_nth", default=5)
 
     new_ids: list[str] = []
@@ -68,6 +69,7 @@ def run(count: int, seed: int | None, workers: int) -> list[str]:
                 processed = process_image(
                     raw, design_id, cfg.images_dir, cfg.thumbs_dir,
                     quality=quality, thumb_quality=thumb_q, thumb_sizes=thumb_sizes,
+                    max_edge=max_edge,
                 )
                 if dup.is_duplicate(processed.sha256, processed.phash):
                     processed.image_path.unlink(missing_ok=True)

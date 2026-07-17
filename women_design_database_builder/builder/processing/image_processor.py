@@ -73,11 +73,17 @@ def process_image(
     quality: int = 82,
     thumb_quality: int = 75,
     thumb_sizes: tuple[int, ...] = (512, 256, 128),
+    max_edge: int = 1000,
 ) -> ProcessedImage:
     img = Image.open(io.BytesIO(raw))
     img.load()
     if img.mode not in ("RGB", "RGBA"):
         img = img.convert("RGB")
+
+    # Hard cap: never store an image whose longest side exceeds `max_edge`,
+    # regardless of the size requested from the provider.
+    if max_edge and max(img.width, img.height) > max_edge:
+        img.thumbnail((max_edge, max_edge), Image.LANCZOS)
 
     images_dir.mkdir(parents=True, exist_ok=True)
     thumbs_dir.mkdir(parents=True, exist_ok=True)

@@ -19,6 +19,7 @@ generation:
 processing:
   format: webp
   quality: 82
+  max_edge: 1000                  # hard cap: stored image longest side <= 1000px
   thumbnail_sizes: [512, 256, 128]
   thumbnail_quality: 75
 
