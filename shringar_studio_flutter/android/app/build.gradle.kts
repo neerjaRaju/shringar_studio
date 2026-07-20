@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.zrix.shringarstudio"
+    namespace = "com.ballapps.shringarstudio"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.zrix.shringarstudio"
+        applicationId = "com.ballapps.shringarstudio"
         // google_mobile_ads requires minSdk 23.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion

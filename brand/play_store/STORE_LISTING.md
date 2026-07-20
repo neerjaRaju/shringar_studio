@@ -7,7 +7,7 @@ Copy-paste these into the Play Console. All assets are in `brand/play_store/`.
 ## App details
 
 - **App name (max 30):** `Shringar Studio`
-- **Package name:** `com.zrix.shringarstudio`
+- **Package name:** `com.ballapps.shringarstudio`
 - **Default language:** English (United States) — en-US
 - **App or game:** App
 - **Category:** Art & Design (alt: Lifestyle)

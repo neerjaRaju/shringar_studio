@@ -1,4 +1,4 @@
-package com.zrix.shringarstudio
+package com.ballapps.shringarstudio
 
 import io.flutter.embedding.android.FlutterActivity
 
