@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,6 +10,7 @@ import 'package:wallpaper_manager_plus/wallpaper_manager_plus.dart';
 
 import '../../../core/ads/ad_manager.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/cdn_image.dart';
 import '../../../domain/entities/design.dart';
 import '../../providers/core_providers.dart';
 import '../../providers/design_providers.dart';
@@ -29,6 +28,7 @@ class DetailScreen extends ConsumerStatefulWidget {
 class _DetailScreenState extends ConsumerState<DetailScreen> {
   Design? _design;
   bool _unlocked = false;
+  File? _imageFile; // full image resolved via a working mirror
 
   @override
   void initState() {
@@ -45,10 +45,15 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         ? await ref.read(unlockedProvider.notifier).isUnlocked(design.id)
         : true;
     AdManager.instance.maybeShowInterstitial();
-    if (mounted) setState(() {
-      _design = design;
-      _unlocked = unlocked;
-    });
+    if (mounted) {
+      setState(() {
+        _design = design;
+        _unlocked = unlocked;
+      });
+    }
+    // Resolve the full image through the mirror cascade (also enables offline).
+    final file = await fetchImageFileWithFallback(design.imageUrl);
+    if (mounted && file != null) setState(() => _imageFile = file);
   }
 
   bool get _locked => (_design?.isPremium ?? false) && !_unlocked;
@@ -60,18 +65,24 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     if (mounted) setState(() => _unlocked = true);
   }
 
-  Future<File> _cachedFile(String url) =>
-      DefaultCacheManager().getSingleFile(url);
+  void _snack(String msg) {
+    if (mounted) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(msg)));
+    }
+  }
 
   Future<void> _share() async {
-    final file = await _cachedFile(_design!.imageUrl);
+    final file = await fetchImageFileWithFallback(_design!.imageUrl);
+    if (file == null) return _snack('Could not load image');
     await SharePlus.instance.share(
       ShareParams(files: [XFile(file.path)], text: _design!.title),
     );
   }
 
   Future<void> _download() async {
-    final cached = await _cachedFile(_design!.imageUrl);
+    final cached = await fetchImageFileWithFallback(_design!.imageUrl);
+    if (cached == null) return _snack('Download failed — check your connection');
     final dir = await getApplicationDocumentsDirectory();
     final dest = File('${dir.path}/downloads/${_design!.id}.webp');
     await dest.parent.create(recursive: true);
@@ -79,23 +90,16 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     await ref
         .read(userDataSourceProvider)
         .recordDownload(_design!.id, dest.path);
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Saved to downloads')),
-      );
-    }
+    _snack('Saved to downloads');
   }
 
   Future<void> _setWallpaper() async {
-    final file = await _cachedFile(_design!.imageUrl);
+    final file = await fetchImageFileWithFallback(_design!.imageUrl);
+    if (file == null) return _snack('Could not load image');
     try {
       await WallpaperManagerPlus()
           .setWallpaper(file, WallpaperManagerPlus.homeScreen);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Wallpaper set')),
-        );
-      }
+      _snack('Wallpaper set');
     } catch (_) {}
   }
 
@@ -164,13 +168,17 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            PhotoView(
-              imageProvider: CachedNetworkImageProvider(design.imageUrl),
-              minScale: PhotoViewComputedScale.contained,
-              maxScale: PhotoViewComputedScale.covered * 3,
-              backgroundDecoration:
-                  BoxDecoration(color: Theme.of(context).colorScheme.surface),
-            ),
+            if (_imageFile != null)
+              PhotoView(
+                imageProvider: FileImage(_imageFile!),
+                minScale: PhotoViewComputedScale.contained,
+                maxScale: PhotoViewComputedScale.covered * 3,
+                backgroundDecoration:
+                    BoxDecoration(color: Theme.of(context).colorScheme.surface),
+              )
+            else
+              // While the full image resolves, show the (cascading) thumbnail.
+              CdnImage(url: design.thumbnailUrl, fit: BoxFit.contain),
             if (_locked) _lockOverlay(),
           ],
         ),

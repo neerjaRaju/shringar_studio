@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shringar_studio/presentation/providers/core_providers.dart';
 
+import '../../../core/utils/cdn_image.dart';
 import '../../../domain/entities/design.dart';
 import '../../../domain/repositories/design_repository.dart';
 import '../../providers/design_providers.dart';
@@ -80,11 +80,10 @@ class _DailyDesign extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Stack(
                     children: [
-                      CachedNetworkImage(
-                        imageUrl: d.imageUrl,
+                      SizedBox(
                         height: 200,
                         width: double.infinity,
-                        fit: BoxFit.cover,
+                        child: CdnImage(url: d.imageUrl, fit: BoxFit.cover),
                       ),
                       Positioned(
                         left: 16,

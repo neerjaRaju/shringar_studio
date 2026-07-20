@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/utils/cdn_image.dart';
 import '../../../domain/entities/design.dart';
 import '../../../domain/repositories/design_repository.dart';
 import '../../providers/core_providers.dart';
@@ -76,11 +76,7 @@ class _SlideshowScreenState extends ConsumerState<SlideshowScreen> {
               controller: _controller,
               itemCount: _items.length,
               itemBuilder: (_, i) => InteractiveViewer(
-                child: CachedNetworkImage(
-                  imageUrl: _items[i].imageUrl,
-                  fit: BoxFit.contain,
-                  width: double.infinity,
-                ),
+                child: CdnImage(url: _items[i].imageUrl, fit: BoxFit.contain),
               ),
             ),
     );
