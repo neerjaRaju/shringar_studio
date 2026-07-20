@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Splash for Android 5–11: maroon background + centered lotus logo. -->
+<!-- Splash for Android 5–11: white background + centered lotus logo. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/brand_maroon" />
+    <item android:drawable="@android:color/white" />
     <item>
         <bitmap
             android:gravity="center"

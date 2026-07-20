@@ -7,6 +7,8 @@ from PIL import Image, ImageDraw
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RES = ROOT / "shringar_studio_flutter" / "android" / "app" / "src" / "main" / "res"
 
+# Splash logo tuned for a WHITE background: deep-maroon petals with gold
+# outlines so the mark reads with strong contrast on white.
 MAROON_DK = (92, 16, 38)
 GOLD = (201, 162, 39)
 GOLD_LT = (235, 205, 120)
@@ -19,7 +21,7 @@ def petal(tile, color, outline):
     w = tile * 0.26
     cx = tile / 2
     d.ellipse([cx - w / 2, tile * 0.06, cx + w / 2, tile * 0.62],
-              fill=color, outline=outline, width=max(2, tile // 90))
+              fill=color, outline=outline, width=max(2, tile // 70))
     return p
 
 
@@ -27,11 +29,11 @@ def mandala(size):
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     cx = cy = size / 2
     for count, tile, color, phase in [
-        (16, size, GOLD, 0.0),
-        (16, int(size * 0.74), GOLD_LT, math.pi / 16),
-        (8, int(size * 0.52), GOLD, 0.0),
+        (16, size, MAROON, 0.0),
+        (16, int(size * 0.74), MAROON_DK, math.pi / 16),
+        (8, int(size * 0.52), MAROON, 0.0),
     ]:
-        base = petal(tile, color, MAROON_DK)
+        base = petal(tile, color, GOLD)
         for i in range(count):
             ang = phase + i * (2 * math.pi / count)
             rot = base.rotate(-math.degrees(ang), resample=Image.BICUBIC, expand=True)
@@ -40,7 +42,7 @@ def mandala(size):
             py = cy - r * math.cos(ang) - rot.height / 2
             canvas.alpha_composite(rot, (int(px), int(py)))
     d = ImageDraw.Draw(canvas)
-    for rr, col in [(0.20, GOLD_LT), (0.15, MAROON), (0.09, GOLD)]:
+    for rr, col in [(0.20, GOLD), (0.15, MAROON), (0.09, GOLD_LT)]:
         r = size * rr
         d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=col, outline=MAROON_DK,
                   width=max(2, size // 120))
