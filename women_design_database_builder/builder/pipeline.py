@@ -38,6 +38,15 @@ def run(
 
     db = DesignDatabase(cfg.db_path)
     db.upsert_categories(engine.categories)
+
+    # Keep the DB in sync with the active category list: drop any designs /
+    # categories no longer present in categories.json, and delete their files.
+    allowed = {c["id"] for c in engine.categories}
+    for removed_id in db.prune_to_categories(allowed):
+        (cfg.images_dir / f"{removed_id}.webp").unlink(missing_ok=True)
+        for size in cfg.get("processing", "thumbnail_sizes", default=[512, 256, 128]):
+            (cfg.thumbs_dir / str(size) / f"{removed_id}.webp").unlink(missing_ok=True)
+
     dup_index = DuplicateIndex.from_rows(
         db.hashes_and_phashes(),
         threshold=cfg.get("dedup", "phash_hamming_threshold", default=6),

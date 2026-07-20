@@ -111,6 +111,29 @@ class DesignDatabase:
         self.conn.execute("INSERT OR REPLACE INTO meta (key,value) VALUES (?,?)", (key, value))
         self.conn.commit()
 
+    def prune_to_categories(self, allowed_ids: set[str]) -> list[str]:
+        """Remove designs and category rows whose category is not in
+        `allowed_ids`. Returns the ids of removed designs (so callers can
+        delete their image/thumbnail files). Keeps the DB in sync with the
+        active category list on every build."""
+        marks = ",".join("?" for _ in allowed_ids) or "''"
+        params = tuple(allowed_ids)
+        removed = [
+            r["id"]
+            for r in self.conn.execute(
+                f"SELECT id FROM designs WHERE category NOT IN ({marks})", params
+            )
+        ]
+        self.conn.execute(f"DELETE FROM designs WHERE category NOT IN ({marks})", params)
+        self.conn.execute(
+            f"DELETE FROM designs_fts WHERE category NOT IN ({marks})", params
+        )
+        self.conn.execute(
+            f"DELETE FROM categories WHERE id NOT IN ({marks})", params
+        )
+        self.conn.commit()
+        return removed
+
     # -- reads ----------------------------------------------------------------
     def count(self) -> int:
         return self.conn.execute("SELECT COUNT(*) FROM designs").fetchone()[0]

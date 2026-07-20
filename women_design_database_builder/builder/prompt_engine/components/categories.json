@@ -1,52 +1,499 @@
 {
   "categories": [
-    {"id": "mehndi", "name": "Mehndi", "subject": "mehndi henna design", "body_parts": ["full hand", "palm", "back of hand", "fingers", "wrist", "arm", "feet", "leg"], "subcategories": ["Arabic", "Bridal", "Simple", "Mandala", "Floral", "Indo-Arabic", "Moroccan", "Minimal", "Jewellery Style", "Festival"]},
-    {"id": "blouse", "name": "Blouse", "subject": "indian saree blouse design worn by a woman", "body_parts": ["back view", "front view", "side profile", "close-up of embroidery"], "subcategories": ["Bridal", "Silk", "Heavy Embroidery", "Boat Neck", "Deep Back Neck", "Cotton", "Princess Cut", "Puff Sleeve", "Designer Sleeve", "High Neck"]},
-    {"id": "rangoli", "name": "Rangoli", "subject": "rangoli kolam design on floor", "body_parts": ["top-down floor view", "45 degree floor view"], "subcategories": ["Simple", "Flower", "Peacock", "Lotus", "Festival", "Minimal", "Modern", "Freehand", "Dot Grid", "Sanskar Bharti"]},
-    {"id": "hairstyle", "name": "Hairstyles", "subject": "indian women hairstyle", "body_parts": ["back view of head", "side profile", "three quarter view"], "subcategories": ["Bridal Bun", "Open Hair", "French Braid", "Party", "Simple", "Messy Bun", "Fishtail Braid", "Half Up", "Gajra Braid", "South Indian Bridal"]},
-    {"id": "makeup", "name": "Makeup", "subject": "indian women makeup look, beauty portrait", "body_parts": ["face close-up", "portrait", "eye close-up"], "subcategories": ["Bridal", "Soft Glam", "Natural", "Party", "Wedding Guest", "Office", "Smokey Eye", "Dewy", "Traditional", "HD"]},
-    {"id": "nail_art", "name": "Nail Art", "subject": "nail art design on woman's hand", "body_parts": ["hand close-up", "fingers close-up"], "subcategories": ["Simple", "French", "Festival", "Bridal", "Glitter", "Floral", "Minimal", "Chrome", "Ombre", "Stone Work"]},
-    {"id": "jewellery", "name": "Jewellery", "subject": "indian jewellery set product photography", "body_parts": ["worn by a woman", "flat lay on velvet", "on jewellery stand"], "subcategories": ["Bridal", "Temple", "Oxidized", "Kundan", "Polki", "Meenakari", "Gold", "Silver", "Antique", "Pearl"]},
-    {"id": "saree_draping", "name": "Saree Draping", "subject": "saree draping style on indian woman, full length", "body_parts": ["full body front", "full body back", "side pose"], "subcategories": ["Nivi", "Bengali", "Gujarati", "Maharashtrian", "Lehenga Style", "Butterfly", "Mermaid", "Pant Style", "Belt Style", "Modern"]},
-    {"id": "lehenga", "name": "Lehenga", "subject": "designer lehenga choli worn by indian woman", "body_parts": ["full body front", "twirl shot", "back view"], "subcategories": ["Bridal", "Party", "Silk", "Net", "Velvet", "Mirror Work", "Zardozi", "Pastel", "Floral Print", "Crop Top"]},
-    {"id": "kurti", "name": "Kurti", "subject": "designer kurti worn by indian woman", "body_parts": ["full body front", "three quarter view"], "subcategories": ["Anarkali", "A-Line", "Straight Cut", "Angrakha", "Kaftan", "High Low", "Denim", "Chikankari", "Printed", "Office Wear"]},
-    {"id": "salwar", "name": "Salwar Suit", "subject": "salwar kameez suit worn by indian woman", "body_parts": ["full body front", "three quarter view"], "subcategories": ["Punjabi", "Patiala", "Palazzo", "Sharara", "Churidar", "Pakistani", "Cotton", "Party Wear", "Bandhani", "Phulkari"]},
-    {"id": "dupatta", "name": "Dupatta", "subject": "designer dupatta draped elegantly", "body_parts": ["draped on shoulder", "flat lay", "flowing in air"], "subcategories": ["Banarasi", "Phulkari", "Bandhani", "Net", "Silk", "Gota Patti", "Leheriya", "Organza", "Velvet", "Printed"]},
-    {"id": "neck_design", "name": "Neck Designs", "subject": "blouse and kurti neckline design close-up, dressform", "body_parts": ["front neckline close-up"], "subcategories": ["Round", "V-Neck", "Boat", "Square", "Sweetheart", "Keyhole", "Collar", "Halter", "Illusion", "Angrakha"]},
-    {"id": "sleeve_design", "name": "Sleeve Designs", "subject": "blouse sleeve design close-up on dressform", "body_parts": ["sleeve close-up", "arm view"], "subcategories": ["Puff", "Bell", "Cap", "Full", "Elbow", "Cold Shoulder", "Ruffle", "Bishop", "Net", "Embroidered"]},
-    {"id": "back_neck", "name": "Back Neck Designs", "subject": "blouse back neck design, back view on dressform", "body_parts": ["back close-up"], "subcategories": ["Deep U", "Pot Neck", "Tie Back", "Cut Out", "Tassel", "Button", "Sheer Net", "Bow", "Round", "Triangle"]},
-    {"id": "front_neck", "name": "Front Neck Designs", "subject": "kurti front neck design close-up on dressform", "body_parts": ["front close-up"], "subcategories": ["Round", "Angrakha", "Keyhole", "Collar", "Placket", "V-Shape", "Square", "Boat", "Mandarin", "Sweetheart"]},
-    {"id": "wedding_decor", "name": "Wedding Decoration", "subject": "indian wedding venue decoration", "body_parts": ["wide venue shot", "entrance shot", "aisle view"], "subcategories": ["Stage", "Entrance", "Mandap", "Floral", "Royal", "Outdoor", "Minimal", "Theme Based", "Traditional", "Destination"]},
-    {"id": "bridal_accessories", "name": "Bridal Accessories", "subject": "indian bridal accessories product photography", "body_parts": ["flat lay", "worn close-up"], "subcategories": ["Maang Tikka", "Kalire", "Chooda", "Nath", "Kamarbandh", "Payal", "Haathphool", "Veil", "Clutch", "Juttis"]},
-    {"id": "bindi", "name": "Bindi Designs", "subject": "decorative bindi design on indian woman's forehead", "body_parts": ["forehead close-up", "face portrait"], "subcategories": ["Simple", "Bridal", "Stone", "Designer", "Long", "Round", "Crystal", "Kumkum", "Fancy", "Minimal"]},
-    {"id": "hair_accessories", "name": "Hair Accessories", "subject": "indian hair accessories on styled hair", "body_parts": ["back of head close-up", "flat lay"], "subcategories": ["Gajra", "Hair Pin", "Tiara", "Juda Pin", "Paranda", "Hair Chain", "Clips", "Headband", "Flowers", "Pearl String"]},
-    {"id": "bridal_look", "name": "Bridal Looks", "subject": "complete indian bridal look, full portrait of bride", "body_parts": ["portrait", "full body", "candid pose"], "subcategories": ["North Indian", "South Indian", "Bengali", "Marathi", "Punjabi", "Rajasthani", "Muslim Bride", "Christian Bride", "Modern", "Royal"]},
-    {"id": "fashion_accessories", "name": "Fashion Accessories", "subject": "women fashion accessories product photography", "body_parts": ["flat lay", "worn close-up"], "subcategories": ["Sunglasses", "Belts", "Scarves", "Watches", "Bracelets", "Rings", "Brooches", "Anklets", "Earrings", "Chains"]},
-    {"id": "footwear", "name": "Footwear", "subject": "women ethnic footwear product photography", "body_parts": ["product shot", "worn on feet"], "subcategories": ["Juttis", "Kolhapuri", "Heels", "Wedges", "Mojari", "Sandals", "Bridal Heels", "Flats", "Embroidered", "Block Heels"]},
-    {"id": "handbags", "name": "Handbags", "subject": "women designer handbag product photography", "body_parts": ["product shot", "held by woman"], "subcategories": ["Potli", "Clutch", "Tote", "Sling", "Embroidered", "Bridal", "Party", "Office", "Batua", "Beaded"]},
-    {"id": "home_decor", "name": "Home Decoration", "subject": "indian home decoration interior", "body_parts": ["room wide shot", "corner detail shot"], "subcategories": ["Living Room", "Wall Decor", "Ethnic", "Modern", "Balcony", "Entrance", "Lighting", "Plants", "Vintage", "Minimal"]},
-    {"id": "diy_decor", "name": "DIY Decoration", "subject": "DIY handmade decoration craft", "body_parts": ["craft close-up", "styled display"], "subcategories": ["Paper Craft", "Wall Hanging", "Toran", "Flower Craft", "Recycled", "Lantern", "Photo Frame", "Dream Catcher", "Garland", "Candle Decor"]},
-    {"id": "festival_decor", "name": "Festival Decoration", "subject": "indian festival home decoration", "body_parts": ["room wide shot", "entrance shot"], "subcategories": ["Lights", "Torans", "Flowers", "Lanterns", "Wall Decor", "Table Decor", "Door Decor", "Balcony", "Candles", "Urli"]},
-    {"id": "mandir_decor", "name": "Mandir Decoration", "subject": "home mandir temple decoration", "body_parts": ["mandir front view", "detail shot"], "subcategories": ["Flower", "Lighting", "Backdrop", "Marble", "Wooden", "Festival Special", "Simple Daily", "Grand", "Modern", "Traditional"]},
-    {"id": "puja_decor", "name": "Puja Decoration", "subject": "hindu puja thali and altar decoration", "body_parts": ["thali top view", "altar view"], "subcategories": ["Puja Thali", "Kalash", "Altar", "Aarti Thali", "Flower Arrangement", "Rangoli Corner", "Diya Setup", "Backdrop", "Prasad Plating", "Ganpati Setup"]},
-    {"id": "rakhi_decor", "name": "Rakhi Decoration", "subject": "raksha bandhan rakhi and thali decoration", "body_parts": ["thali top view", "rakhi close-up"], "subcategories": ["Rakhi Thali", "Handmade Rakhi", "Kids Rakhi", "Bhaiya Bhabhi", "Designer Rakhi", "Silver Rakhi", "Beads", "Floral", "Cartoon", "Traditional"]},
-    {"id": "karwa_chauth", "name": "Karwa Chauth", "subject": "karwa chauth celebration decoration and look", "body_parts": ["thali view", "portrait of woman with sieve"], "subcategories": ["Thali Decoration", "Mehndi", "Outfit", "Karwa Decoration", "Chalni Decor", "Sargi Thali", "Look Ideas", "Puja Setup", "Gift Ideas", "Jewellery"]},
-    {"id": "teej", "name": "Teej", "subject": "teej festival celebration look and decoration", "body_parts": ["portrait", "swing decoration view"], "subcategories": ["Green Outfit", "Mehndi", "Jhula Decoration", "Puja Setup", "Jewellery", "Hairstyle", "Thali", "Bangles", "Look Ideas", "Home Decor"]},
-    {"id": "navratri", "name": "Navratri", "subject": "navratri festival look and decoration", "body_parts": ["full body garba pose", "decor wide shot"], "subcategories": ["Chaniya Choli", "Garba Look", "9 Colors", "Dandiya", "Mataji Decoration", "Golu", "Jewellery", "Mehndi", "Hairstyle", "Aarti Decor"]},
-    {"id": "diwali", "name": "Diwali", "subject": "diwali festival decoration", "body_parts": ["home wide shot", "detail close-up"], "subcategories": ["Diya", "Rangoli", "Lights", "Lantern", "Toran", "Home Decor", "Puja Setup", "Outfit", "Balcony", "Gift Ideas"]},
-    {"id": "holi", "name": "Holi", "subject": "holi festival celebration", "body_parts": ["portrait with colors", "decor shot"], "subcategories": ["Look Ideas", "White Outfit", "Color Play", "Party Decor", "Thandai Setup", "Organic Colors", "Hairstyle", "Makeup", "Rangoli", "Kids Ideas"]},
-    {"id": "eid", "name": "Eid", "subject": "eid celebration look and decoration", "body_parts": ["portrait", "table decor shot"], "subcategories": ["Sharara Look", "Mehndi", "Hijab Styles", "Table Setting", "Home Decor", "Anarkali", "Jewellery", "Makeup", "Gift Ideas", "Sheer Khurma"]},
-    {"id": "pongal", "name": "Pongal", "subject": "pongal festival kolam and celebration", "body_parts": ["kolam floor view", "celebration shot"], "subcategories": ["Kolam", "Pongal Pot", "Half Saree", "Home Decor", "Sugarcane Decor", "Thali", "Look Ideas", "Traditional Food Styling", "Entrance Decor", "Kids Wear"]},
-    {"id": "sankranti", "name": "Sankranti", "subject": "makar sankranti festival celebration", "body_parts": ["rangoli view", "celebration shot"], "subcategories": ["Rangoli", "Kite Decor", "Black Saree Look", "Haldi Kumkum", "Til Ladoo Styling", "Home Decor", "Bhogi", "Look Ideas", "Thali", "Muggulu"]},
-    {"id": "christmas_decor", "name": "Christmas Decoration", "subject": "christmas home decoration", "body_parts": ["room wide shot", "tree close-up"], "subcategories": ["Tree", "Wreath", "Table Setting", "Lights", "DIY Ornaments", "Star", "Balcony", "Gift Wrapping", "Cake Table", "Entrance"]},
-    {"id": "baby_shower", "name": "Baby Shower Decoration", "subject": "baby shower (godh bharai) decoration", "body_parts": ["stage wide shot", "detail shot"], "subcategories": ["Backdrop", "Balloon", "Floral", "Godh Bharai", "Theme Based", "Seating Decor", "Cake Table", "Welcome Board", "Pastel", "Traditional"]},
-    {"id": "birthday_decor", "name": "Birthday Decoration", "subject": "birthday party decoration", "body_parts": ["party room wide shot", "cake table shot"], "subcategories": ["Balloon", "Theme Based", "First Birthday", "Kids", "Adult", "Backdrop", "Cake Table", "Home Simple", "Terrace", "Surprise Room"]},
-    {"id": "engagement_decor", "name": "Engagement Decoration", "subject": "engagement ceremony decoration", "body_parts": ["stage wide shot", "ring platter close-up"], "subcategories": ["Stage", "Ring Platter", "Floral", "Backdrop", "Couple Seat", "Entrance", "Lighting", "Minimal", "Royal", "Outdoor"]},
-    {"id": "wedding_stage", "name": "Wedding Stage Decoration", "subject": "indian wedding stage decoration", "body_parts": ["stage front wide shot", "sofa close-up"], "subcategories": ["Floral Stage", "Royal", "Minimal", "Traditional", "Modern", "Backdrop", "Lighting", "South Indian", "Outdoor", "Reception Stage"]},
-    {"id": "bridal_room", "name": "Bridal Room Decoration", "subject": "bridal room first night decoration", "body_parts": ["room wide shot", "bed close-up"], "subcategories": ["Flower Bed", "Candles", "Balloons", "Rose Petals", "Lighting", "Canopy", "Wall Decor", "Romantic", "Simple", "Royal"]},
-    {"id": "cake_decor", "name": "Cake Decoration", "subject": "decorated celebration cake, professional food photography", "body_parts": ["cake full view", "detail close-up"], "subcategories": ["Wedding Cake", "Birthday", "Floral", "Fondant", "Semi Naked", "Drip", "Theme", "Cupcakes", "Anniversary", "Engagement"]},
-    {"id": "mehndi_ceremony", "name": "Mehndi Ceremony", "subject": "mehndi ceremony decoration and setup", "body_parts": ["venue wide shot", "seating close-up"], "subcategories": ["Seating", "Backdrop", "Marigold", "Umbrella Decor", "Bangles Decor", "Swing", "Outdoor", "Colorful", "Boho", "Traditional"]},
-    {"id": "haldi_ceremony", "name": "Haldi Ceremony", "subject": "haldi ceremony decoration and setup", "body_parts": ["venue wide shot", "thali close-up"], "subcategories": ["Yellow Theme", "Marigold", "Backdrop", "Seating", "Thali Decor", "Outdoor", "Props", "Urli Decor", "Simple Home", "Photo Booth"]},
-    {"id": "reception_decor", "name": "Reception Decoration", "subject": "wedding reception decoration", "body_parts": ["venue wide shot", "table close-up"], "subcategories": ["Stage", "Entrance", "Table Setting", "Lighting", "Floral", "Royal", "Modern", "Photo Booth", "Cake Table", "Couple Entry"]}
+    {
+      "id": "mehndi",
+      "name": "Mehndi",
+      "subject": "mehndi henna design",
+      "body_parts": [
+        "full hand",
+        "palm",
+        "back of hand",
+        "fingers",
+        "wrist",
+        "arm",
+        "feet",
+        "leg"
+      ],
+      "subcategories": [
+        "Arabic",
+        "Bridal",
+        "Simple",
+        "Mandala",
+        "Floral",
+        "Indo-Arabic",
+        "Moroccan",
+        "Minimal",
+        "Jewellery Style",
+        "Festival"
+      ]
+    },
+    {
+      "id": "blouse",
+      "name": "Blouse",
+      "subject": "indian saree blouse design worn by a woman",
+      "body_parts": [
+        "back view",
+        "front view",
+        "side profile",
+        "close-up of embroidery"
+      ],
+      "subcategories": [
+        "Bridal",
+        "Silk",
+        "Heavy Embroidery",
+        "Boat Neck",
+        "Deep Back Neck",
+        "Cotton",
+        "Princess Cut",
+        "Puff Sleeve",
+        "Designer Sleeve",
+        "High Neck"
+      ]
+    },
+    {
+      "id": "rangoli",
+      "name": "Rangoli",
+      "subject": "rangoli kolam design on floor",
+      "body_parts": [
+        "top-down floor view",
+        "45 degree floor view"
+      ],
+      "subcategories": [
+        "Simple",
+        "Flower",
+        "Peacock",
+        "Lotus",
+        "Festival",
+        "Minimal",
+        "Modern",
+        "Freehand",
+        "Dot Grid",
+        "Sanskar Bharti"
+      ]
+    },
+    {
+      "id": "hairstyle",
+      "name": "Hairstyles",
+      "subject": "indian women hairstyle",
+      "body_parts": [
+        "back view of head",
+        "side profile",
+        "three quarter view"
+      ],
+      "subcategories": [
+        "Bridal Bun",
+        "Open Hair",
+        "French Braid",
+        "Party",
+        "Simple",
+        "Messy Bun",
+        "Fishtail Braid",
+        "Half Up",
+        "Gajra Braid",
+        "South Indian Bridal"
+      ]
+    },
+    {
+      "id": "makeup",
+      "name": "Makeup",
+      "subject": "indian women makeup look, beauty portrait",
+      "body_parts": [
+        "face close-up",
+        "portrait",
+        "eye close-up"
+      ],
+      "subcategories": [
+        "Bridal",
+        "Soft Glam",
+        "Natural",
+        "Party",
+        "Wedding Guest",
+        "Office",
+        "Smokey Eye",
+        "Dewy",
+        "Traditional",
+        "HD"
+      ]
+    },
+    {
+      "id": "nail_art",
+      "name": "Nail Art",
+      "subject": "nail art design on woman's hand",
+      "body_parts": [
+        "hand close-up",
+        "fingers close-up"
+      ],
+      "subcategories": [
+        "Simple",
+        "French",
+        "Festival",
+        "Bridal",
+        "Glitter",
+        "Floral",
+        "Minimal",
+        "Chrome",
+        "Ombre",
+        "Stone Work"
+      ]
+    },
+    {
+      "id": "jewellery",
+      "name": "Jewellery",
+      "subject": "indian jewellery set product photography",
+      "body_parts": [
+        "worn by a woman",
+        "flat lay on velvet",
+        "on jewellery stand"
+      ],
+      "subcategories": [
+        "Bridal",
+        "Temple",
+        "Oxidized",
+        "Kundan",
+        "Polki",
+        "Meenakari",
+        "Gold",
+        "Silver",
+        "Antique",
+        "Pearl"
+      ]
+    },
+    {
+      "id": "saree_draping",
+      "name": "Saree Draping",
+      "subject": "saree draping style on indian woman, full length",
+      "body_parts": [
+        "full body front",
+        "full body back",
+        "side pose"
+      ],
+      "subcategories": [
+        "Nivi",
+        "Bengali",
+        "Gujarati",
+        "Maharashtrian",
+        "Lehenga Style",
+        "Butterfly",
+        "Mermaid",
+        "Pant Style",
+        "Belt Style",
+        "Modern"
+      ]
+    },
+    {
+      "id": "lehenga",
+      "name": "Lehenga",
+      "subject": "designer lehenga choli worn by indian woman",
+      "body_parts": [
+        "full body front",
+        "twirl shot",
+        "back view"
+      ],
+      "subcategories": [
+        "Bridal",
+        "Party",
+        "Silk",
+        "Net",
+        "Velvet",
+        "Mirror Work",
+        "Zardozi",
+        "Pastel",
+        "Floral Print",
+        "Crop Top"
+      ]
+    },
+    {
+      "id": "kurti",
+      "name": "Kurti",
+      "subject": "designer kurti worn by indian woman",
+      "body_parts": [
+        "full body front",
+        "three quarter view"
+      ],
+      "subcategories": [
+        "Anarkali",
+        "A-Line",
+        "Straight Cut",
+        "Angrakha",
+        "Kaftan",
+        "High Low",
+        "Denim",
+        "Chikankari",
+        "Printed",
+        "Office Wear"
+      ]
+    },
+    {
+      "id": "salwar",
+      "name": "Salwar Suit",
+      "subject": "salwar kameez suit worn by indian woman",
+      "body_parts": [
+        "full body front",
+        "three quarter view"
+      ],
+      "subcategories": [
+        "Punjabi",
+        "Patiala",
+        "Palazzo",
+        "Sharara",
+        "Churidar",
+        "Pakistani",
+        "Cotton",
+        "Party Wear",
+        "Bandhani",
+        "Phulkari"
+      ]
+    },
+    {
+      "id": "dupatta",
+      "name": "Dupatta",
+      "subject": "designer dupatta draped elegantly",
+      "body_parts": [
+        "draped on shoulder",
+        "flat lay",
+        "flowing in air"
+      ],
+      "subcategories": [
+        "Banarasi",
+        "Phulkari",
+        "Bandhani",
+        "Net",
+        "Silk",
+        "Gota Patti",
+        "Leheriya",
+        "Organza",
+        "Velvet",
+        "Printed"
+      ]
+    },
+    {
+      "id": "neck_design",
+      "name": "Neck Designs",
+      "subject": "blouse and kurti neckline design close-up, dressform",
+      "body_parts": [
+        "front neckline close-up"
+      ],
+      "subcategories": [
+        "Round",
+        "V-Neck",
+        "Boat",
+        "Square",
+        "Sweetheart",
+        "Keyhole",
+        "Collar",
+        "Halter",
+        "Illusion",
+        "Angrakha"
+      ]
+    },
+    {
+      "id": "sleeve_design",
+      "name": "Sleeve Designs",
+      "subject": "blouse sleeve design close-up on dressform",
+      "body_parts": [
+        "sleeve close-up",
+        "arm view"
+      ],
+      "subcategories": [
+        "Puff",
+        "Bell",
+        "Cap",
+        "Full",
+        "Elbow",
+        "Cold Shoulder",
+        "Ruffle",
+        "Bishop",
+        "Net",
+        "Embroidered"
+      ]
+    },
+    {
+      "id": "back_neck",
+      "name": "Back Neck Designs",
+      "subject": "blouse back neck design, back view on dressform",
+      "body_parts": [
+        "back close-up"
+      ],
+      "subcategories": [
+        "Deep U",
+        "Pot Neck",
+        "Tie Back",
+        "Cut Out",
+        "Tassel",
+        "Button",
+        "Sheer Net",
+        "Bow",
+        "Round",
+        "Triangle"
+      ]
+    },
+    {
+      "id": "front_neck",
+      "name": "Front Neck Designs",
+      "subject": "kurti front neck design close-up on dressform",
+      "body_parts": [
+        "front close-up"
+      ],
+      "subcategories": [
+        "Round",
+        "Angrakha",
+        "Keyhole",
+        "Collar",
+        "Placket",
+        "V-Shape",
+        "Square",
+        "Boat",
+        "Mandarin",
+        "Sweetheart"
+      ]
+    },
+    {
+      "id": "bridal_accessories",
+      "name": "Bridal Accessories",
+      "subject": "indian bridal accessories product photography",
+      "body_parts": [
+        "flat lay",
+        "worn close-up"
+      ],
+      "subcategories": [
+        "Maang Tikka",
+        "Kalire",
+        "Chooda",
+        "Nath",
+        "Kamarbandh",
+        "Payal",
+        "Haathphool",
+        "Veil",
+        "Clutch",
+        "Juttis"
+      ]
+    },
+    {
+      "id": "bindi",
+      "name": "Bindi Designs",
+      "subject": "decorative bindi design on indian woman's forehead",
+      "body_parts": [
+        "forehead close-up",
+        "face portrait"
+      ],
+      "subcategories": [
+        "Simple",
+        "Bridal",
+        "Stone",
+        "Designer",
+        "Long",
+        "Round",
+        "Crystal",
+        "Kumkum",
+        "Fancy",
+        "Minimal"
+      ]
+    },
+    {
+      "id": "hair_accessories",
+      "name": "Hair Accessories",
+      "subject": "indian hair accessories on styled hair",
+      "body_parts": [
+        "back of head close-up",
+        "flat lay"
+      ],
+      "subcategories": [
+        "Gajra",
+        "Hair Pin",
+        "Tiara",
+        "Juda Pin",
+        "Paranda",
+        "Hair Chain",
+        "Clips",
+        "Headband",
+        "Flowers",
+        "Pearl String"
+      ]
+    },
+    {
+      "id": "bridal_look",
+      "name": "Bridal Looks",
+      "subject": "complete indian bridal look, full portrait of bride",
+      "body_parts": [
+        "portrait",
+        "full body",
+        "candid pose"
+      ],
+      "subcategories": [
+        "North Indian",
+        "South Indian",
+        "Bengali",
+        "Marathi",
+        "Punjabi",
+        "Rajasthani",
+        "Muslim Bride",
+        "Christian Bride",
+        "Modern",
+        "Royal"
+      ]
+    },
+    {
+      "id": "fashion_accessories",
+      "name": "Fashion Accessories",
+      "subject": "women fashion accessories product photography",
+      "body_parts": [
+        "flat lay",
+        "worn close-up"
+      ],
+      "subcategories": [
+        "Sunglasses",
+        "Belts",
+        "Scarves",
+        "Watches",
+        "Bracelets",
+        "Rings",
+        "Brooches",
+        "Anklets",
+        "Earrings",
+        "Chains"
+      ]
+    },
+    {
+      "id": "footwear",
+      "name": "Footwear",
+      "subject": "women ethnic footwear product photography",
+      "body_parts": [
+        "product shot",
+        "worn on feet"
+      ],
+      "subcategories": [
+        "Juttis",
+        "Kolhapuri",
+        "Heels",
+        "Wedges",
+        "Mojari",
+        "Sandals",
+        "Bridal Heels",
+        "Flats",
+        "Embroidered",
+        "Block Heels"
+      ]
+    },
+    {
+      "id": "handbags",
+      "name": "Handbags",
+      "subject": "women designer handbag product photography",
+      "body_parts": [
+        "product shot",
+        "held by woman"
+      ],
+      "subcategories": [
+        "Potli",
+        "Clutch",
+        "Tote",
+        "Sling",
+        "Embroidered",
+        "Bridal",
+        "Party",
+        "Office",
+        "Batua",
+        "Beaded"
+      ]
+    }
   ]
 }

@@ -70,7 +70,21 @@ def test_upsert_categories(tmp_path):
     engine = PromptEngine(random.Random(0))
     db.upsert_categories(engine.categories)
     n = db.conn.execute("SELECT COUNT(*) FROM categories").fetchone()[0]
-    assert n == len(engine.categories) >= 47
+    assert n == len(engine.categories) >= 20
+
+
+def test_prune_to_categories(tmp_path):
+    db = _db(tmp_path)  # 10 designs, all category 'mehndi'
+    # add a design in another category
+    other = _record(99)
+    other.category = 'blouse'
+    db.insert(other)
+    assert db.count() == 11
+    removed = db.prune_to_categories({'mehndi'})
+    assert removed == ['id0099']
+    assert db.count() == 10
+    assert db.search('mehndi')  # fts still works
+    assert db.search('bridal AND royal')  # blouse row gone but mehndi remain
 
 
 def test_reinsert_replaces_not_duplicates(tmp_path):
