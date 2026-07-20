@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallpaper_manager_plus/wallpaper_manager_plus.dart';
 
@@ -12,6 +11,7 @@ import '../../../core/ads/ad_manager.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/cdn_image.dart';
 import '../../../domain/entities/design.dart';
+import 'fullscreen_image_viewer.dart';
 import '../../providers/core_providers.dart';
 import '../../providers/design_providers.dart';
 import '../../providers/user_providers.dart';
@@ -161,26 +161,49 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
   }
 
   Widget _imageViewer(Design design) {
-    return AspectRatio(
-      aspectRatio: design.aspectRatio.clamp(0.6, 1.4),
-      child: Hero(
-        tag: 'grid-${design.id}',
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (_imageFile != null)
-              PhotoView(
+    final scheme = Theme.of(context).colorScheme;
+    return GestureDetector(
+      onTap: (_locked || _imageFile == null)
+          ? null
+          : () => FullScreenImageViewer.open(
+                context,
                 imageProvider: FileImage(_imageFile!),
-                minScale: PhotoViewComputedScale.contained,
-                maxScale: PhotoViewComputedScale.covered * 3,
-                backgroundDecoration:
-                    BoxDecoration(color: Theme.of(context).colorScheme.surface),
-              )
-            else
-              // While the full image resolves, show the (cascading) thumbnail.
-              CdnImage(url: design.thumbnailUrl, fit: BoxFit.contain),
-            if (_locked) _lockOverlay(),
-          ],
+                heroTag: 'grid-${design.id}',
+                title: design.title,
+              ),
+      child: AspectRatio(
+        aspectRatio: design.aspectRatio.clamp(0.6, 1.4),
+        child: Hero(
+          tag: 'grid-${design.id}',
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: scheme.surfaceContainerHighest),
+              if (_imageFile != null)
+                Image.file(_imageFile!, fit: BoxFit.contain)
+              else ...[
+                // Blurred thumbnail while the full image resolves.
+                CdnImage(url: design.thumbnailUrl, fit: BoxFit.contain),
+                const Center(child: CircularProgressIndicator()),
+              ],
+              // Tap-to-zoom hint.
+              if (!_locked && _imageFile != null)
+                Positioned(
+                  right: 12,
+                  bottom: 12,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.zoom_in,
+                        color: Colors.white, size: 22),
+                  ),
+                ),
+              if (_locked) _lockOverlay(),
+            ],
+          ),
         ),
       ),
     );
