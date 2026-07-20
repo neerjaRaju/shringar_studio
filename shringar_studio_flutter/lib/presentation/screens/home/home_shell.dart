@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/utils/cdn_image.dart';
 import '../../../domain/entities/design_category.dart';
 import '../../providers/design_providers.dart';
 import 'home_tab.dart';
@@ -102,11 +102,11 @@ class _CategoryCard extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             if (category.coverUrl != null)
-              CachedNetworkImage(
-                imageUrl: category.coverUrl!,
+              CdnImage(
+                url: category.coverUrl!,
                 fit: BoxFit.cover,
-                errorWidget: (_, __, ___) => _emojiBg(scheme),
-                placeholder: (_, __) => Container(color: scheme.surfaceContainerHighest),
+                errorWidget: _emojiBg(scheme),
+                placeholder: Container(color: scheme.surfaceContainerHighest),
               )
             else
               _emojiBg(scheme),

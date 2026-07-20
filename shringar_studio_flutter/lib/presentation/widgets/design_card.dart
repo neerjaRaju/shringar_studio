@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../core/utils/cdn_image.dart';
 import '../../domain/entities/design.dart';
 
 /// Grid/list card showing a design thumbnail with a premium badge overlay.
@@ -24,15 +24,15 @@ class DesignCard extends StatelessWidget {
           children: [
             Hero(
               tag: '$heroPrefix-${design.id}',
-              child: CachedNetworkImage(
-                imageUrl: design.thumbnailUrl,
+              child: CdnImage(
+                url: design.thumbnailUrl,
                 fit: BoxFit.cover,
-                placeholder: (_, __) => Shimmer.fromColors(
+                placeholder: Shimmer.fromColors(
                   baseColor: scheme.surfaceContainerHighest,
                   highlightColor: scheme.surfaceContainer,
                   child: Container(color: scheme.surfaceContainerHighest),
                 ),
-                errorWidget: (_, __, ___) => Container(
+                errorWidget: Container(
                   color: scheme.surfaceContainerHighest,
                   child: Icon(Icons.image_not_supported_outlined,
                       color: scheme.onSurfaceVariant),
