@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../constants/app_constants.dart';
+import 'consent_manager.dart';
 
 /// Central AdMob controller: banner, interstitial, rewarded, native, app-open.
 /// Premium content is unlocked ONLY through rewarded ads (no subscriptions).
@@ -19,6 +20,25 @@ class AdManager {
 
   Future<void> initialize() async {
     if (_initialized) return;
+
+    // 1. Gather GDPR/UMP consent before requesting any ads (AdMob policy).
+    await ConsentManager.instance.gatherConsent();
+    if (!await ConsentManager.instance.canRequestAds()) {
+      // Consent not obtained — do not initialise ads yet.
+      return;
+    }
+
+    // 2. Compliant request configuration: general-audience app, family-safe
+    //    max ad content rating, not directed at children.
+    await MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        maxAdContentRating: MaxAdContentRating.pg,
+        tagForChildDirectedTreatment:
+            TagForChildDirectedTreatment.unspecified,
+        tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.unspecified,
+      ),
+    );
+
     await MobileAds.instance.initialize();
     _initialized = true;
     _loadInterstitial();

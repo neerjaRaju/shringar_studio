@@ -9,6 +9,11 @@ abstract final class AppConstants {
   static const assetDbPath = 'assets/db/shringar.db';
   static const dbFileName = 'shringar.db';
 
+  // Privacy policy (GitHub Pages — enable Pages on the repo, /docs folder).
+  static const privacyPolicyUrl =
+      'https://$githubOwner.github.io/shringar_studio/privacy_policy.html';
+  static const supportEmail = 'satish@zrix.com';
+
   // ---- Paging ----
   static const pageSize = 30;
 

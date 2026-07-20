@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/ads/consent_manager.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../providers/core_providers.dart';
 import '../../providers/design_providers.dart';
 import '../../providers/settings_provider.dart';
@@ -85,6 +88,28 @@ class SettingsScreen extends ConsumerWidget {
             title: const Text('Check for updates'),
             subtitle: const Text('Downloads new designs from GitHub Releases'),
             onTap: () => _checkUpdate(context, ref),
+          ),
+          const Divider(),
+          const _SectionHeader('Privacy'),
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: const Text('Privacy Policy'),
+            onTap: () => launchUrl(
+              Uri.parse(AppConstants.privacyPolicyUrl),
+              mode: LaunchMode.externalApplication,
+            ),
+          ),
+          FutureBuilder<bool>(
+            future: ConsentManager.instance.isPrivacyOptionsRequired(),
+            builder: (_, snap) => (snap.data ?? false)
+                ? ListTile(
+                    leading: const Icon(Icons.tune),
+                    title: const Text('Ad privacy choices'),
+                    subtitle: const Text('Manage personalised ads consent'),
+                    onTap: () =>
+                        ConsentManager.instance.showPrivacyOptionsForm(),
+                  )
+                : const SizedBox.shrink(),
           ),
           const Divider(),
           const _SectionHeader('About'),

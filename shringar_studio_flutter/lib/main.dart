@@ -41,12 +41,35 @@ class ShringarApp extends ConsumerStatefulWidget {
   ConsumerState<ShringarApp> createState() => _ShringarAppState();
 }
 
-class _ShringarAppState extends ConsumerState<ShringarApp> {
+class _ShringarAppState extends ConsumerState<ShringarApp>
+    with WidgetsBindingObserver {
+  bool _firstResume = true;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Auto-update: check GitHub Releases, download if newer, apply live.
     WidgetsBinding.instance.addPostFrameCallback((_) => _autoUpdate());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Show the app-open ad only when returning to the foreground — never over
+    // the cold-start/splash, per AdMob app-open policy.
+    if (state == AppLifecycleState.resumed) {
+      if (_firstResume) {
+        _firstResume = false;
+        return;
+      }
+      AdManager.instance.showAppOpenIfAvailable();
+    }
   }
 
   Future<void> _autoUpdate() async {

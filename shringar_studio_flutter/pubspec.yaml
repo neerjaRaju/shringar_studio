@@ -37,6 +37,7 @@ dependencies:
   speech_to_text: ^7.0.0
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.0
+  url_launcher: ^6.3.0
 
   # Monetization
   google_mobile_ads: ^9.0.0
