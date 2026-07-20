@@ -15,8 +15,19 @@ import '../network/update_service.dart';
 class AppDatabase {
   AppDatabase._(this.designDb, this.userDb);
 
-  final Database designDb;
+  Database designDb;
   final Database userDb;
+
+  /// Live-swap the design database with a freshly-downloaded file, then reopen
+  /// it read-only. Safe because the design DB is read-only and callers refresh
+  /// their queries afterwards.
+  Future<void> reopenDesignDb(File downloaded) async {
+    final path = designDb.path;
+    await designDb.close();
+    await downloaded.copy(path);
+    if (downloaded.existsSync()) await downloaded.delete();
+    designDb = await openDatabase(path, readOnly: true);
+  }
 
   static Future<AppDatabase> open() async {
     final dir = await getApplicationDocumentsDirectory();

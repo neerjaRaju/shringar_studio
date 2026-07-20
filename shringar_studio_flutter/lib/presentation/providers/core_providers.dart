@@ -19,9 +19,14 @@ final sharedPrefsProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError('sharedPrefsProvider must be overridden'),
 );
 
-final localDesignSourceProvider = Provider<LocalDesignSource>(
-  (ref) => LocalDesignSource(ref.watch(appDatabaseProvider).designDb),
-);
+/// Bumped when the design DB is swapped live by the auto-updater, forcing the
+/// data source (and everything downstream) to rebuild against the new DB.
+final libraryRevisionProvider = StateProvider<int>((_) => 0);
+
+final localDesignSourceProvider = Provider<LocalDesignSource>((ref) {
+  ref.watch(libraryRevisionProvider);
+  return LocalDesignSource(ref.watch(appDatabaseProvider).designDb);
+});
 
 final userDataSourceProvider = Provider<UserDataSource>(
   (ref) => UserDataSource(ref.watch(appDatabaseProvider).userDb),

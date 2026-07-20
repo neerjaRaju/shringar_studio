@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/ads/ad_manager.dart';
 import 'core/database/app_database.dart';
-import 'core/network/update_service.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/providers/core_providers.dart';
+import 'presentation/providers/design_providers.dart';
 import 'presentation/providers/settings_provider.dart';
 import 'presentation/router/app_router.dart';
+
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +22,6 @@ Future<void> main() async {
 
   // Ads initialise in the background; UI never blocks on them.
   AdManager.instance.initialize();
-
-  // Check GitHub Releases for a newer database and download it in the
-  // background. It's applied on the NEXT launch (safe file-level swap),
-  // so this never blocks or disrupts the current session.
-  unawaited(UpdateService().checkAndStage());
 
   runApp(
     ProviderScope(
@@ -39,11 +34,49 @@ Future<void> main() async {
   );
 }
 
-class ShringarApp extends ConsumerWidget {
+class ShringarApp extends ConsumerStatefulWidget {
   const ShringarApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShringarApp> createState() => _ShringarAppState();
+}
+
+class _ShringarAppState extends ConsumerState<ShringarApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Auto-update: check GitHub Releases, download if newer, apply live.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _autoUpdate());
+  }
+
+  Future<void> _autoUpdate() async {
+    final svc = ref.read(updateServiceProvider);
+    final info = await svc.checkForUpdate();
+    if (info == null) return; // up to date or offline
+
+    final file = await svc.downloadDatabase(info);
+    if (file == null) return; // download failed — try again next launch
+
+    // Live-swap the design DB and refresh everything that reads from it.
+    await ref.read(appDatabaseProvider).reopenDesignDb(file);
+    await svc.markUpdated(info.version);
+    if (!mounted) return;
+    ref.read(libraryRevisionProvider.notifier).state++;
+    ref.invalidate(categoriesProvider);
+    ref.invalidate(festivalsProvider);
+    ref.invalidate(dailyDesignProvider);
+    ref.invalidate(totalCountProvider);
+
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Text('Library updated — ${info.totalDesigns} designs now available'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
 
     return DynamicColorBuilder(
@@ -52,6 +85,7 @@ class ShringarApp extends ConsumerWidget {
         return MaterialApp.router(
           title: 'Shringar Studio',
           debugShowCheckedModeBanner: false,
+          scaffoldMessengerKey: scaffoldMessengerKey,
           theme: AppTheme.light(useDynamic ? lightDynamic : null),
           darkTheme: AppTheme.dark(useDynamic ? darkDynamic : null),
           themeMode: settings.themeMode,

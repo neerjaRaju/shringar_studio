@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../core/database/app_database.dart';
 import '../../providers/core_providers.dart';
+import '../../providers/design_providers.dart';
 import '../../providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -23,11 +23,16 @@ class SettingsScreen extends ConsumerWidget {
       messenger.showSnackBar(const SnackBar(content: Text('Update download failed')));
       return;
     }
-    await AppDatabase.replaceDesignDb(
-        ref.read(appDatabaseProvider).designDb, file);
+    // Live-swap and refresh — no restart needed.
+    await ref.read(appDatabaseProvider).reopenDesignDb(file);
     await service.markUpdated(info.version);
+    ref.read(libraryRevisionProvider.notifier).state++;
+    ref.invalidate(categoriesProvider);
+    ref.invalidate(festivalsProvider);
+    ref.invalidate(dailyDesignProvider);
+    ref.invalidate(totalCountProvider);
     messenger.showSnackBar(SnackBar(
-        content: Text('Updated to ${info.version} · ${info.totalDesigns} designs. Restart to apply.')));
+        content: Text('Updated to ${info.version} · ${info.totalDesigns} designs')));
   }
 
   @override
