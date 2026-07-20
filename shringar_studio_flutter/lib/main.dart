@@ -1,5 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -113,6 +114,24 @@ class _ShringarAppState extends ConsumerState<ShringarApp>
           darkTheme: AppTheme.dark(useDynamic ? darkDynamic : null),
           themeMode: settings.themeMode,
           routerConfig: appRouter,
+          builder: (context, child) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            final scheme = Theme.of(context).colorScheme;
+            // System navigation bar: white with dark icons in light mode;
+            // matches the dark surface in dark mode.
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness:
+                  isDark ? Brightness.light : Brightness.dark,
+              statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+              systemNavigationBarColor:
+                  isDark ? scheme.surface : Colors.white,
+              systemNavigationBarIconBrightness:
+                  isDark ? Brightness.light : Brightness.dark,
+              systemNavigationBarDividerColor: Colors.transparent,
+            ));
+            return child!;
+          },
         );
       },
     );
