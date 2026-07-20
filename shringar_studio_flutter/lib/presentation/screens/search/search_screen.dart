@@ -33,11 +33,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ('#6a', Color(0xFF6A0DAD)),
   ];
 
+  bool _initFromRoute = false;
+
   @override
-  void initState() {
-    super.initState();
-    final fest = GoRouterState.of(context).uri.queryParameters['festival'];
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Read route query params here (not in initState) — inherited widgets like
+    // GoRouterState are only available after initState completes. Guarded so it
+    // only applies once.
+    if (_initFromRoute) return;
+    _initFromRoute = true;
+    final params = GoRouterState.of(context).uri.queryParameters;
+    final fest = params['festival'];
     if (fest != null) _festival = fest;
+    final q = params['q'];
+    if (q != null && q.isNotEmpty) {
+      _query = q;
+      _controller.text = q;
+    }
   }
 
   @override

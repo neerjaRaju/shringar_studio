@@ -39,9 +39,7 @@ class UpdateService {
   /// applied version and any already-staged (pending) version.
   Future<UpdateInfo?> checkForUpdate() async {
     try {
-      final resp = await _client
-          .get(Uri.parse(AppConstants.updateJsonUrl))
-          .timeout(const Duration(seconds: 20));
+      final resp = await _client.get(Uri.parse(AppConstants.updateJsonUrl)).timeout(const Duration(seconds: 20));
       if (resp.statusCode != 200) return null;
       final json = jsonDecode(resp.body) as Map<String, dynamic>;
       final remote = json['version'] as String? ?? '';
@@ -52,8 +50,7 @@ class UpdateService {
       return UpdateInfo(
         version: remote,
         totalDesigns: json['total_designs'] as int? ?? 0,
-        newDesignIds:
-            (json['new_design_ids'] as List? ?? const []).cast<String>(),
+        newDesignIds: (json['new_design_ids'] as List? ?? const []).cast<String>(),
         dbUrl: json['db_url'] as String? ?? AppConstants.dbDownloadUrl,
       );
     } on Exception {
@@ -65,9 +62,7 @@ class UpdateService {
   /// swap it in (live, from Settings) or leave it for startup to apply.
   Future<File?> downloadDatabase(UpdateInfo info) async {
     try {
-      final resp = await _client
-          .get(Uri.parse(info.dbUrl))
-          .timeout(const Duration(minutes: 5));
+      final resp = await _client.get(Uri.parse(info.dbUrl)).timeout(const Duration(minutes: 5));
       if (resp.statusCode != 200 || resp.bodyBytes.length < 4096) return null;
       // integrity check: SQLite magic header
       final header = String.fromCharCodes(resp.bodyBytes.take(15));

@@ -1,17 +1,11 @@
 /// App-wide constants. Update the GitHub owner once here if the org changes.
 abstract final class AppConstants {
-  static const appName = 'Shringar Studio';
 
-  // ---- GitHub-hosted data (zero-cost backend) ----
-  // Single monorepo: app + builder live in one repo; the daily Action
-  // publishes update.json + shringar.db as Releases on this same repo.
+  static const appName = 'Shringar Studio';
   static const githubOwner = 'neerjaRaju';
   static const dataRepo = 'shringar_studio';
-  static const updateJsonUrl =
-      'https://github.com/$githubOwner/$dataRepo/releases/latest/download/update.json';
-  static const dbDownloadUrl =
-      'https://github.com/$githubOwner/$dataRepo/releases/latest/download/shringar.db';
-
+  static const updateJsonUrl = 'https://github.com/$githubOwner/$dataRepo/releases/latest/download/update.json';
+  static const dbDownloadUrl = 'https://github.com/$githubOwner/$dataRepo/releases/latest/download/shringar.db';
   static const assetDbPath = 'assets/db/shringar.db';
   static const dbFileName = 'shringar.db';
 
